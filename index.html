@@ -58,7 +58,7 @@
 
 <script type="text/javascript">
 
-/* set win counter and word list to start a new game*/
+/* set win & loss counters, word list and declare variables*/
 var numberOfWins=0;
 var numberOfLosses=0;
 var wordList=[
@@ -67,50 +67,73 @@ var wordList=[
     "goodbye",
     "solong"
 ];
+var lettersGuessed=[];
+var lettersGuessedString;
+var guessCounter;
+var lettersSolved;
+var secretWord;
+var wordMaskString;
+var wordMaskArray=[];
 
-/* set counters, variables and pick a word to start a new round of the game */
-
-    /* reset counters */
-    var guessesRemaining=10;
-    var lettersGuessed=[];
-    var lettersGuessedString="";
-    var guessCounter=0;
-    var lettersSolved=0;
-
-    /* pick a random word from the word list */
-    function pickWord(arrayOfWords){
+/* pick a random word from the word list */
+function pickWord(arrayOfWords){
         var randomNumber = Math.floor(Math.random()*arrayOfWords.length)
         return arrayOfWords[randomNumber];
+}
+
+/* build the wordMaskString used to display the hidden version of the word */
+function maskString(myWord){
+    var mask = "";
+    for(i=0;i<myWord.length;i++){
+        mask+="_";
     }
-    var secretWord=pickWord(wordList);
+    return mask;
+}
+
+/* build the wordMaskArray used to examine the characters of the secret word */
+function maskArray(myWord){
+    var mask = [];
+    for(i=0;i<myWord.length;i++){
+        mask[i]="_";
+    }
+    return mask;
+}
+
+/* reset counters, variables and pick a word to start a new round of the game */
+function resetRound(){
+
+    /* reset variables for a new round */
+    guessesRemaining=10;
+    lettersGuessed.length=0;
+    lettersGuessedString="";
+    guessCounter=0;
+    lettersSolved=0;
+
+    /* pick a secret word */
+    secretWord=pickWord(wordList);
 
     /* display the secret word, for now */
     var myElement = document.getElementById('CurrentWord');
     myElement.innerHTML=secretWord;
 
-    /* build the wordMaskString used to display the hidden version of the word */
-    function maskString(myWord){
-        var mask = "";
-        for(i=0;i<myWord.length;i++){
-            mask+="_";
-        }
-        return mask;
-    }
-    var wordMaskString = maskString(secretWord);
+    /* create a mask for displaying what is revealed about the secret word */
+    wordMaskString = maskString(secretWord);
 
-    /* build the wordMaskArray used to examine the characters of the secret word */
-    function maskArray(myWord){
-        var mask = [];
-        for(i=0;i<myWord.length;i++){
-            mask[i]="_";
-        }
-        return mask;
-    }
-    var wordMaskArray = maskArray(secretWord);
+    /* create an array for the mask for manipulation */
+    wordMaskArray = maskArray(secretWord);
 
     /* display the masked version of the word */
     var myElement = document.getElementById('HiddenWord');
     myElement.innerHTML=wordMaskString;
+
+    /* reset letters guessed and update the display*/
+    lettersGuessed.length=0;
+    lettersGuessedString=""; 
+    var myElement = document.getElementById('LettersGuessed');
+    myElement.innerHTML=lettersGuessedString;
+}
+
+resetRound();
 
 /* capture keypresses as guesses and update the page */
 document.onkeypress = function (e) {
@@ -159,34 +182,7 @@ document.onkeypress = function (e) {
             myElement.innerHTML=numberOfLosses;
             
             /* reset everything for a new round */
-                
-                /* reset counters  */
-                guessesRemaining=10;
-                guessCounter=0;
-                lettersSolved=0;
-
-                /* reset letters guessed */
-                lettersGuessed.length=0;
-                lettersGuessedString=""; 
-                var myElement = document.getElementById('LettersGuessed');
-                myElement.innerHTML=lettersGuessedString;
-
-                /* pick a random word from the word list */
-                secretWord=pickWord(wordList);
-    
-                /* display the secret word, for now */
-                var myElement = document.getElementById('CurrentWord');
-                myElement.innerHTML=secretWord;
-
-                /* build the wordMaskString used to display the hidden version of the word */
-                wordMaskString = maskString(secretWord);
-
-                /* build the wordMaskArray used to examine the characters of the secret word */
-                wordMaskArray = maskArray(secretWord);
-
-                /* display the masked version of the word */
-                var myElement = document.getElementById('HiddenWord');
-                myElement.innerHTML=wordMaskString;
+            resetRound();
         }
             
         /* check if player completed the word */
@@ -198,66 +194,9 @@ document.onkeypress = function (e) {
             numberOfWins++;
             var myElement = document.getElementById('NumberOfWins');
             myElement.innerHTML=numberOfWins;
-
-            /* reset everything for a new round */
-                
-                /* reset counters  */
-                guessesRemaining=10;
-                guessCounter=0;
-                lettersSolved=0;
-
-                /* reset letters guessed */
-                lettersGuessed.length=0;
-                lettersGuessedString=""; 
-                var myElement = document.getElementById('LettersGuessed');
-                myElement.innerHTML=lettersGuessedString;
-
-                /* pick a random word from the word list */
-                secretWord=pickWord(wordList);
-    
-                /* display the secret word, for now */
-                var myElement = document.getElementById('CurrentWord');
-                myElement.innerHTML=secretWord;
-
-                /* build the wordMaskString used to display the hidden version of the word */
-                wordMaskString = maskString(secretWord);
-
-                /* build the wordMaskArray used to examine the characters of the secret word */
-                wordMaskArray = maskArray(secretWord);
-
-                /* display the masked version of the word */
-                var myElement = document.getElementById('HiddenWord');
-                myElement.innerHTML=wordMaskString;
+            resetRound();
     } 
-
-    
-        /* reset variables and pick a new word to start a new round */
-
-                /* reset counters */
-/*                var guessesRemaining=10;
-                var lettersGuessed=[];
-                var lettersGuessedString="";
-                var guessCounter=0;
-                var lettersSolved=0;
-
-                /* pick a random word from the word list */
-/*                var secretWord=pickWord(wordList);
-
-                /* display the secret word, for now */
-/*                var myElement = document.getElementById('CurrentWord');
-                myElement.innerHTML=secretWord;
-
-                /* build the wordMaskString used to display the hidden version of the word */
-/*                var wordMaskString = maskString(secretWord);
-
-                /* build the wordMaskArray used to examine the characters of the secret word */
-/*                var wordMaskArray = maskArray(secretWord);
-
-                /* display the masked version of the word */
-/*                var myElement = document.getElementById('HiddenWord');
-                myElement.innerHTML=wordMaskString;
-                
-*/
+   
     }
 
 };
