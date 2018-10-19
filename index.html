@@ -13,10 +13,18 @@
 <body>
     <h1>Hangman</h1>
     <div id="CallToAction">Start Guessing Letters With Your Keyboard</div>
+
     <h2>
         Wins
     </h2>
     <div id="NumberOfWins">
+        0
+    </div>
+
+    <h2>
+        Losses
+    </h2>
+    <div id="NumberOfLosses">
         0
     </div>
 
@@ -45,88 +53,214 @@
     <div id="LettersGuessed">
     </div>
 
+
+
+
 <script type="text/javascript">
-/* pick a random word from a list */
-    var wordList=[
-        "hello",
-        "world",
-        "goodbye",
-        "solong"
-    ];
-    var randomNumber = Math.floor(Math.random()*wordList.length)
-    var secretWord=wordList[randomNumber];
 
-/* display the secret word, for now */
-    var myElement = document.getElementById('CurrentWord');
-    myElement.innerHTML=secretWord;
+/* set win counter and word list to start a new game*/
+var numberOfWins=0;
+var numberOfLosses=0;
+var wordList=[
+    "hello",
+    "world",
+    "goodbye",
+    "solong"
+];
 
-/* build the wordMask used to display the hidden version of the word */
-    var wordMask = [];
-    var wordMaskString = "";
-    for(i=0;i<secretWord.length;i++){
-        wordMask[i]="-";
-        wordMaskString+="-";
-    }
+/* set counters, variables and pick a word to start a new round of the game */
 
-/* display the masked version of the word */
-    var myElement = document.getElementById('HiddenWord');
-    myElement.innerHTML=wordMaskString;
-
-/* capture keypresses as guesses and update the page*/
+    /* reset counters */
     var guessesRemaining=10;
     var lettersGuessed=[];
     var lettersGuessedString="";
     var guessCounter=0;
+    var lettersSolved=0;
 
-    document.onkeypress = function (e) {
+    /* pick a random word from the word list */
+    function pickWord(arrayOfWords){
+        var randomNumber = Math.floor(Math.random()*arrayOfWords.length)
+        return arrayOfWords[randomNumber];
+    }
+    var secretWord=pickWord(wordList);
 
-    /* check if pressed key is in the list of already guessed letters, if not, add it and display it*/
+    /* display the secret word, for now */
+    var myElement = document.getElementById('CurrentWord');
+    myElement.innerHTML=secretWord;
+
+    /* build the wordMaskString used to display the hidden version of the word */
+    function maskString(myWord){
+        var mask = "";
+        for(i=0;i<myWord.length;i++){
+            mask+="_";
+        }
+        return mask;
+    }
+    var wordMaskString = maskString(secretWord);
+
+    /* build the wordMaskArray used to examine the characters of the secret word */
+    function maskArray(myWord){
+        var mask = [];
+        for(i=0;i<myWord.length;i++){
+            mask[i]="_";
+        }
+        return mask;
+    }
+    var wordMaskArray = maskArray(secretWord);
+
+    /* display the masked version of the word */
+    var myElement = document.getElementById('HiddenWord');
+    myElement.innerHTML=wordMaskString;
+
+/* capture keypresses as guesses and update the page */
+document.onkeypress = function (e) {
+
+    /* check if pressed key is in the list of already guessed letters, if not, add it to the list of already guessed letters and update the display*/
     var pressedKeyCode = e.charCode;
     var stringKeyCode = String.fromCharCode(pressedKeyCode);
     var alreadyGuessed;
     alreadyGuessed = lettersGuessedString.indexOf(stringKeyCode);
-    if(alreadyGuessed<0){
+    console.log("alreadyGuessed is equal to: "+alreadyGuessed);
+    if(alreadyGuessed<0){ // IE. the letter has not already been guessed
         lettersGuessed[guessCounter]=stringKeyCode;
         lettersGuessedString+=stringKeyCode;
         guessCounter++;
         var myElement = document.getElementById('LettersGuessed');
         myElement.innerHTML=lettersGuessedString;
+    
+        /* check if pressed key is in the secret word.  If it is, update the mask array with the guessed letter. */  
+        var match=false;
+        for(i=0;i<secretWord.length;i++){
+            if(stringKeyCode==(secretWord.substring(i,i+1))){
+                wordMaskArray[i]=stringKeyCode;
+                match=true;
+                lettersSolved++;
+            };
+        }
+
+        /* if pressed key is in the secret word, display the wordMask... otherwise decrement guessesRemaining and update the display */
+        if (match){
+            wordMaskString="";
+            for(i=0;i<secretWord.length;i++){
+                wordMaskString+=wordMaskArray[i];
+            }
+            var myElement = document.getElementById('HiddenWord');
+            myElement.innerHTML=wordMaskString;
+        }else{
+            guessesRemaining--;
+            var myElement = document.getElementById('GuessesRemaining');
+            myElement.innerHTML=guessesRemaining;
+        }
+            
+        /* check if player ran out of guesses */
+        if(guessesRemaining==0){
+            numberOfLosses++;
+            var myElement = document.getElementById('NumberOfLosses');
+            myElement.innerHTML=numberOfLosses;
+            
+            /* reset everything for a new round */
+                
+                /* reset counters  */
+                guessesRemaining=10;
+                guessCounter=0;
+                lettersSolved=0;
+
+                /* reset letters guessed */
+                lettersGuessed.length=0;
+                lettersGuessedString=""; 
+                var myElement = document.getElementById('LettersGuessed');
+                myElement.innerHTML=lettersGuessedString;
+
+                /* pick a random word from the word list */
+                secretWord=pickWord(wordList);
+    
+                /* display the secret word, for now */
+                var myElement = document.getElementById('CurrentWord');
+                myElement.innerHTML=secretWord;
+
+                /* build the wordMaskString used to display the hidden version of the word */
+                wordMaskString = maskString(secretWord);
+
+                /* build the wordMaskArray used to examine the characters of the secret word */
+                wordMaskArray = maskArray(secretWord);
+
+                /* display the masked version of the word */
+                var myElement = document.getElementById('HiddenWord');
+                myElement.innerHTML=wordMaskString;
+        }
+            
+        /* check if player completed the word */
+        console.log("lettersSolved is: "+lettersSolved);
+        console.log("secretWord.length is: "+secretWord.length);
+
+        if(lettersSolved==secretWord.length){
+            console.log("you completed the word!");
+            numberOfWins++;
+            var myElement = document.getElementById('NumberOfWins');
+            myElement.innerHTML=numberOfWins;
+
+            /* reset everything for a new round */
+                
+                /* reset counters  */
+                guessesRemaining=10;
+                guessCounter=0;
+                lettersSolved=0;
+
+                /* reset letters guessed */
+                lettersGuessed.length=0;
+                lettersGuessedString=""; 
+                var myElement = document.getElementById('LettersGuessed');
+                myElement.innerHTML=lettersGuessedString;
+
+                /* pick a random word from the word list */
+                secretWord=pickWord(wordList);
+    
+                /* display the secret word, for now */
+                var myElement = document.getElementById('CurrentWord');
+                myElement.innerHTML=secretWord;
+
+                /* build the wordMaskString used to display the hidden version of the word */
+                wordMaskString = maskString(secretWord);
+
+                /* build the wordMaskArray used to examine the characters of the secret word */
+                wordMaskArray = maskArray(secretWord);
+
+                /* display the masked version of the word */
+                var myElement = document.getElementById('HiddenWord');
+                myElement.innerHTML=wordMaskString;
     } 
 
+    
+        /* reset variables and pick a new word to start a new round */
 
-    console.log("the char code is: "+pressedKeyCode);
-    console.log("the keyboard character is: "+stringKeyCode);
-    /* check if pressed key is in the secret word */  
-    var match=false;
-    for(i=0;i<secretWord.length;i++){
-        if(stringKeyCode==(secretWord.substring(i,i+1))){
-            wordMask[i]=stringKeyCode;
-            match=true;
-            console.log("found a match");
-            console.log("stringKeyCode = "+stringKeyCode);
-            console.log("wordMask[i] = "+wordMask[i]);
-        };
+                /* reset counters */
+/*                var guessesRemaining=10;
+                var lettersGuessed=[];
+                var lettersGuessedString="";
+                var guessCounter=0;
+                var lettersSolved=0;
+
+                /* pick a random word from the word list */
+/*                var secretWord=pickWord(wordList);
+
+                /* display the secret word, for now */
+/*                var myElement = document.getElementById('CurrentWord');
+                myElement.innerHTML=secretWord;
+
+                /* build the wordMaskString used to display the hidden version of the word */
+/*                var wordMaskString = maskString(secretWord);
+
+                /* build the wordMaskArray used to examine the characters of the secret word */
+/*                var wordMaskArray = maskArray(secretWord);
+
+                /* display the masked version of the word */
+/*                var myElement = document.getElementById('HiddenWord');
+                myElement.innerHTML=wordMaskString;
+                
+*/
     }
 
-    /* if pressed key is in the secret word then update and display the wordMask... otherwise decrement guessesRemaining */
-    if (match){
-        /* build the new masked word string and display it */
-        wordMaskString="";
-        for(i=0;i<secretWord.length;i++){
-            wordMaskString+=wordMask[i];
-        }
-        var myElement = document.getElementById('HiddenWord');
-        myElement.innerHTML=wordMaskString;
-    }else{
-        guessesRemaining--;
-    }
-
-    var myElement = document.getElementById('GuessesRemaining');
-    myElement.innerHTML=guessesRemaining;
-    console.log('Number of guesses remaining is '+guessesRemaining);
 };
-
-
 
 </script>
  <!--  <script src="javascript/game.js"></script>--> 
