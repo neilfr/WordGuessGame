@@ -1,4 +1,5 @@
 /* set win & loss counters, word list and declare variables*/
+var gameContinue=true;
 var numberOfWins=0;
 var numberOfLosses=0;
 var wordList=[
@@ -75,6 +76,10 @@ function resetRound(){
     guessesRemaining=10;
     var myElement = document.getElementById('GuessesRemaining');
     myElement.innerHTML=guessesRemaining;
+
+    /* reset the guessedDog section */
+    var myElement=document.getElementById('guessedDog');
+            myElement.innerHTML="";
 }
 
 /* reset for the first round */
@@ -83,66 +88,77 @@ resetRound();
 /* capture keypresses as guesses and update the page */
 document.onkeypress = function (e) {
 
-    /* check if pressed key is in the list of already guessed letters, if not, add it to the list of already guessed letters and update the display*/
-    var pressedKeyCode = e.charCode;
-    var stringKeyCode = String.fromCharCode(pressedKeyCode).toLowerCase();
-    var alreadyGuessed = lettersGuessedString.indexOf(stringKeyCode.toUpperCase());
-    console.log(stringKeyCode);
-    console.log(lettersGuessedString);
-    console.log("alreadyGuessed is equal to: "+alreadyGuessed);
+    if (gameContinue==true){
+
+        
+        /* check if pressed key is in the list of already guessed letters, if not, add it to the list of already guessed letters and update the display*/
+        var pressedKeyCode = e.charCode;
+        var stringKeyCode = String.fromCharCode(pressedKeyCode).toLowerCase();
+        var alreadyGuessed = lettersGuessedString.indexOf(stringKeyCode.toUpperCase());
+        console.log(stringKeyCode);
+        console.log(lettersGuessedString);
+        console.log("alreadyGuessed is equal to: "+alreadyGuessed);
 
 
-    if(alreadyGuessed<0){ // IE. the letter has not already been guessed
-        lettersGuessed[guessCounter]=stringKeyCode;
-        lettersGuessedString+=stringKeyCode.toUpperCase()+", ";
-        guessCounter++;
-        var myElement = document.getElementById('LettersGuessed');
-        myElement.innerHTML=lettersGuessedString.substring(0,lettersGuessedString.length-2);
-    
-        /* check if pressed key is in the secret word.  If it is, update the mask array with the guessed letter. */  
-        var match=false;
-        for(i=0;i<secretWord.length;i++){
-            if(stringKeyCode==(secretWord.substring(i,i+1))){
-                wordMaskArray[i]=stringKeyCode;
-                match=true;
-                lettersSolved++;
-            };
-        }
-
-        /* if pressed key is in the secret word, display the wordMask... otherwise decrement guessesRemaining and update the display */
-        if (match){
-            wordMaskString="";
+        if(alreadyGuessed<0){ // IE. the letter has not already been guessed
+            lettersGuessed[guessCounter]=stringKeyCode;
+            lettersGuessedString+=stringKeyCode.toUpperCase()+", ";
+            guessCounter++;
+            var myElement = document.getElementById('LettersGuessed');
+            myElement.innerHTML=lettersGuessedString.substring(0,lettersGuessedString.length-2);
+        
+            /* check if pressed key is in the secret word.  If it is, update the mask array with the guessed letter. */  
+            var match=false;
             for(i=0;i<secretWord.length;i++){
-                wordMaskString+=wordMaskArray[i];
+                if(stringKeyCode==(secretWord.substring(i,i+1))){
+                    wordMaskArray[i]=stringKeyCode;
+                    match=true;
+                    lettersSolved++;
+                };
             }
-            var myElement = document.getElementById('HiddenWord');
-            myElement.innerHTML=wordMaskString;
-        }else{
-            guessesRemaining--;
-            var myElement = document.getElementById('GuessesRemaining');
-            myElement.innerHTML=guessesRemaining;
-        }
-            
-        /* check if player ran out of guesses */
-        if(guessesRemaining==0){
-            numberOfLosses++;
-            var myElement = document.getElementById('NumberOfLosses');
-            myElement.innerHTML=numberOfLosses;
-            
-            /* reset everything for a new round */
-            resetRound();
+
+            /* if pressed key is in the secret word, display the wordMask... otherwise decrement guessesRemaining and update the display */
+            if (match){
+                wordMaskString="";
+                for(i=0;i<secretWord.length;i++){
+                    wordMaskString+=wordMaskArray[i];
+                }
+                var myElement = document.getElementById('HiddenWord');
+                myElement.innerHTML=wordMaskString;
+            }else{
+                guessesRemaining--;
+                var myElement = document.getElementById('GuessesRemaining');
+                myElement.innerHTML=guessesRemaining;
+            }
+                
+            /* check if player ran out of guesses */
+            if(guessesRemaining==0){
+                numberOfLosses++;
+                var myElement = document.getElementById('NumberOfLosses');
+                myElement.innerHTML=numberOfLosses;
+                
+                /* reset everything for a new round */
+                resetRound();
+            }
+
+            if(lettersSolved==secretWord.length){
+                var myElement=document.getElementById('guessedDog');
+                myElement.innerHTML=
+                '<p>YOU WIN!</p>'+
+                '<img id="guessedDog" src="assets/images/beagle.jpeg" alt="beagle">'+
+                '<br><br><p>Press Any Key To Continue</p>';
+                numberOfWins++;
+                var myElement = document.getElementById('NumberOfWins');
+                myElement.innerHTML=numberOfWins;
+                gameContinue=false; //pause the game while win message is shown
+            } 
+    
         }
 
-        if(lettersSolved==secretWord.length){
-            console.log("you completed the word!");
-            numberOfWins++;
-            var myElement = document.getElementById('NumberOfWins');
-            myElement.innerHTML=numberOfWins;
-            
-            /* reset everything for a new round */
-            resetRound();
-        } 
-   
+       }else{
+
+        gameContinue=true;
+        resetRound();
     }
-
+    
 };

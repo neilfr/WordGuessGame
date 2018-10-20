@@ -14,10 +14,11 @@ h2{
 #HiddenWord{
     padding-left:1em;
     letter-spacing:1em;
+    line-height:1.5em;
 }
 
 #dogbanner{
-    width:50%;
+    width:40%;
 }
 
 #CallToAction{
@@ -29,13 +30,24 @@ table{
     line-height: 2em;
     font-weight: bold;
 }
+
 th, td{
     width:33%;
+    border:1px solid black; /* while testing */
 }
+
 .bigtext{
     font-size:1.5em;
+    line-height:2em;
 }
+
 .withborders{
     border:1px solid black;
 }
 
+#guessedDog{
+    width:120px;
+    height:90px;
+    margin:auto;
+    text-align:center;
+}
