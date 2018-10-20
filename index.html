@@ -19,14 +19,34 @@
 
     <table>
         <tr>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Guesses Remaining</th>
+            <th class="withborders">Wins</th>
+            <th class="withborders">Losses</th>
+            <th class="withborders">Guesses Remaining</th>
         </tr>
         <tr>
-            <td id="NumberOfWins">0</td>
-            <td id="NumberOfLosses">0</td>
-            <td id="GuessesRemaining">10</td>
+            <td class="withborders" id="NumberOfWins">0</td>
+            <td class="withborders" id="NumberOfLosses">0</td>
+            <td class="withborders" id="GuessesRemaining">10</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="bigtext">Guess the Dog Breed!</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="HiddenWord"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="bigtext">Letters Already Guessed:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="LettersGuessed"></td>
+            <td></td>
         </tr>
     </table>
 
@@ -37,18 +57,15 @@
     <div id="CurrentWord">
     </div>
 -->
-    <h2>
-        Guess the Dog Breed!
-    </h2>
-    <div id="HiddenWord">
-    </div>
- 
+
+
+<!-- 
     <h2>
         Letters Already Guessed
     </h2>
     <div id="LettersGuessed">
     </div>
-
+-->
     <script src="assets/javascript/game.js"></script>
 
 </body>

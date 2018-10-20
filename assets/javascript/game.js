@@ -86,9 +86,11 @@ document.onkeypress = function (e) {
     /* check if pressed key is in the list of already guessed letters, if not, add it to the list of already guessed letters and update the display*/
     var pressedKeyCode = e.charCode;
     var stringKeyCode = String.fromCharCode(pressedKeyCode).toLowerCase();
-    var alreadyGuessed;
-    alreadyGuessed = lettersGuessedString.indexOf(stringKeyCode);
+    var alreadyGuessed = lettersGuessedString.indexOf(stringKeyCode.toUpperCase());
+    console.log(stringKeyCode);
+    console.log(lettersGuessedString);
     console.log("alreadyGuessed is equal to: "+alreadyGuessed);
+
 
     if(alreadyGuessed<0){ // IE. the letter has not already been guessed
         lettersGuessed[guessCounter]=stringKeyCode;

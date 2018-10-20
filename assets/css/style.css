@@ -30,7 +30,12 @@ table{
     font-weight: bold;
 }
 th, td{
-    border:1px solid black;
     width:33%;
+}
+.bigtext{
+    font-size:1.5em;
+}
+.withborders{
+    border:1px solid black;
 }
 
