@@ -11,48 +11,43 @@
 </head>
 
 <body>
-    <h1>Hangman</h1>
-    <div id="CallToAction">Start Guessing Letters With Your Keyboard</div>
 
-    <h2>
-        Wins
-    </h2>
-    <div id="NumberOfWins">
-        0
-    </div>
+    <img id="dogbanner" src="assets/images/bassetbanner.jpg" alt="Dogs">
+    <h1>Dogs!</h1>
 
-    <h2>
-        Losses
-    </h2>
-    <div id="NumberOfLosses">
-        0
-    </div>
+    <div id="CallToAction">Use Your Keyboard To Start</div>
 
+    <table>
+        <tr>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Guesses Remaining</th>
+        </tr>
+        <tr>
+            <td id="NumberOfWins">0</td>
+            <td id="NumberOfLosses">0</td>
+            <td id="GuessesRemaining">10</td>
+        </tr>
+    </table>
+
+<!-- for testing purposes 
     <h2>
         Current Word
     </h2>
     <div id="CurrentWord">
     </div>
-
+-->
     <h2>
-        Hidden Word
+        Guess the Dog Breed!
     </h2>
     <div id="HiddenWord">
     </div>
-    
-    <h2>
-        Number of Guesses Remaining
-    </h2>
-    <div id="GuessesRemaining">
-        10
-    </div>
-
+ 
     <h2>
         Letters Already Guessed
     </h2>
     <div id="LettersGuessed">
     </div>
-
 
     <script src="assets/javascript/game.js"></script>
 

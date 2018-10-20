@@ -2,10 +2,13 @@
 var numberOfWins=0;
 var numberOfLosses=0;
 var wordList=[
-    "hello",
-    "world",
-    "goodbye",
-    "solong"
+    "bulldog",
+    "beagle",
+    "poodle",
+    "pug",
+    "boxer",
+    "labrador",
+    "doberman"
 ];
 var lettersGuessed=[];
 var lettersGuessedString;
@@ -41,20 +44,14 @@ function maskArray(myWord){
 
 /* reset counters, variables and pick a word to start a new round of the game */
 function resetRound(){
-
-    /* reset variables for a new round */
-    guessesRemaining=10;
-    lettersGuessed.length=0;
-    lettersGuessedString="";
-    guessCounter=0;
-    lettersSolved=0;
-
+    
     /* pick a secret word */
     secretWord=pickWord(wordList);
 
-    /* display the secret word, for now */
+    /* display the secret word, for now - for testing only
     var myElement = document.getElementById('CurrentWord');
     myElement.innerHTML=secretWord;
+    */
 
     /* create a mask for displaying what is revealed about the secret word */
     wordMaskString = maskString(secretWord);
@@ -66,11 +63,18 @@ function resetRound(){
     var myElement = document.getElementById('HiddenWord');
     myElement.innerHTML=wordMaskString;
 
-    /* reset letters guessed and update the display*/
+    /* reset letters guessed and update the display */
+    lettersSolved=0;
     lettersGuessed.length=0;
     lettersGuessedString=""; 
     var myElement = document.getElementById('LettersGuessed');
     myElement.innerHTML=lettersGuessedString;
+
+    /* reset guesses remaining */
+    guessCounter=0;
+    guessesRemaining=10;
+    var myElement = document.getElementById('GuessesRemaining');
+    myElement.innerHTML=guessesRemaining;
 }
 
 /* reset for the first round */

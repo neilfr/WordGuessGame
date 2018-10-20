@@ -8,9 +8,29 @@ h1{
 
 h2{
     font-size:1.5em;
+    padding-top:20px;
 }
 
 #HiddenWord{
     padding-left:1em;
     letter-spacing:1em;
 }
+
+#dogbanner{
+    width:50%;
+}
+
+#CallToAction{
+    padding:20px;
+}
+
+table{
+    width:100%;
+    line-height: 2em;
+    font-weight: bold;
+}
+th, td{
+    border:1px solid black;
+    width:33%;
+}
+
