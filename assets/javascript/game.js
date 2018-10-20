@@ -133,19 +133,21 @@ document.onkeypress = function (e) {
                 
             /* check if player ran out of guesses */
             if(guessesRemaining==0){
+                var myElement=document.getElementById('guessedDog');
+                myElement.innerHTML=
+                '<p>YOU LOST!</p><br><br><p>Press Any Key To Continue</p>';
                 numberOfLosses++;
                 var myElement = document.getElementById('NumberOfLosses');
                 myElement.innerHTML=numberOfLosses;
                 
-                /* reset everything for a new round */
-                resetRound();
+                gameContinue=false; //pause the game while win message is shown
             }
 
             if(lettersSolved==secretWord.length){
                 var myElement=document.getElementById('guessedDog');
                 myElement.innerHTML=
-                '<p>YOU WIN!</p>'+
-                '<img id="guessedDog" src="assets/images/beagle.jpeg" alt="beagle">'+
+                '<p>YOU WIN!</p><br>'+
+                '<img id="guessedDog" src="assets/images/'+secretWord+'.jpg" alt="beagle">'+
                 '<br><br><p>Press Any Key To Continue</p>';
                 numberOfWins++;
                 var myElement = document.getElementById('NumberOfWins');

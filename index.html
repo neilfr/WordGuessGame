@@ -15,25 +15,38 @@
     <img id="dogbanner" src="assets/images/bassetbanner.jpg" alt="Dogs">
     <h1>Dogs!</h1>
 
-    <div id="CallToAction">Use Your Keyboard To Start</div>
+    <div id="CallToAction">Press Any Key To Start</div>
 
-    <table>
+    <table id="StatsTable">
         <tr>
-            <th class="withborders">Wins</th>
-            <th class="withborders">Losses</th>
-            <th class="withborders">Guesses Remaining</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Guesses Remaining</th>
         </tr>
         <tr>
-            <td class="withborders" id="NumberOfWins">0</td>
-            <td class="withborders" id="NumberOfLosses">0</td>
-            <td class="withborders" id="GuessesRemaining">10</td>
+            <td id="NumberOfWins">0</td>
+            <td id="NumberOfLosses">0</td>
+            <td id="GuessesRemaining">10</td>
         </tr>
      
     </table>
+    <table id="GuessTable">
+        <tr>
+            <th>Guess the Dog Breed!</th>
+            <th>Letters Already Guessed:</th>
+        </tr>
+        <tr>
+            <td id="HiddenWord"></td>
+            <td id="LettersGuessed"></td>
+        </tr>
+    </table>
+
+    <!--
     <div class = "bigtext">Guess the Dog Breed!</div>
     <div id="HiddenWord"></div>
     <div class = "bigtext">Letters Already Guessed:</div>
     <div id="LettersGuessed"></div>
+-->
     <div id="guessedDog"></div>
 
 
